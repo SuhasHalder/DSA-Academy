@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DSA Academy | Learn DSA & Coding Free</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Learn Data Structures, Algorithms, and Programming Languages from basic to advanced for free.">
+  <meta name="keywords" content="DSA, Data Structures, Algorithms, Learn Coding, Programming, Interview Prep">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="DSO Academy">
+  <meta property="og:title" content="DSO Academy | Learn DSA & Coding Free">
+  <meta property="og:description" content="Learn Data Structures, Algorithms, and Programming Languages from basic to advanced for free.">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+<a class="skip-link" href="#mainContent">Skip to content</a>
+
+<header class="navbar">
+  <div class="logo">DSA<span>Academy</span></div>
+  <nav id="mainNav">
+    <a href="#" onclick="navigate('home'); return false;">Home</a>
+    <a href="#" onclick="navigate('roadmap'); return false;">Roadmap</a>
+    <a href="#" onclick="navigate('dsa'); return false;">DSA</a>
+    <a href="#" onclick="navigate('languages'); return false;">Languages</a>
+    <a href="#" onclick="navigate('practice'); return false;">Practice</a>
+  </nav>
+  <div class="nav-controls">
+    <div id="authControls" class="auth-controls"></div>
+    <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
+  </div>
+</header>
+
+<main id="mainContent" role="main">
+  <div id="app">
+  <div class="loading">Loading...</div>
+  </div>
+</main>
+
+<footer>
+  <p>© 2024 DSA Academy — Learn Coding Free</p>
+  <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8;">Master Data Structures & Algorithms at your own pace</p>
+</footer>
+
+<div id="authModal" class="auth-modal hidden" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <div class="auth-modal-card">
+    <button class="auth-close" onclick="closeAuthModal()" aria-label="Close auth form">✕</button>
+    <h2 id="authTitle">Login</h2>
+    <p id="authSubtitle" class="auth-subtitle">Continue your DSA learning journey.</p>
+    <form id="authForm" onsubmit="handleAuthSubmit(event)">
+      <label class="auth-label" for="authName">Full Name</label>
+      <input id="authName" class="auth-input" type="text" placeholder="Your full name">
+      <label class="auth-label auth-register-only" for="authUsername">Username</label>
+      <input id="authUsername" class="auth-input auth-register-only" type="text" placeholder="Choose a username">
+      <label class="auth-label auth-register-only" for="authPhone">Phone Number</label>
+      <input id="authPhone" class="auth-input auth-register-only" type="tel" placeholder="10-digit mobile number">
+      <label class="auth-label" for="authEmail">Email</label>
+      <input id="authEmail" class="auth-input" type="email" placeholder="you@example.com" required>
+      <label class="auth-label" for="authPassword">Password</label>
+      <input id="authPassword" class="auth-input" type="password" minlength="6" placeholder="Minimum 6 characters" required>
+      <label class="auth-label auth-register-only" for="authConfirmPassword">Confirm Password</label>
+      <input id="authConfirmPassword" class="auth-input auth-register-only" type="password" minlength="6" placeholder="Re-enter your password">
+      <label class="auth-checkbox-row">
+        <input id="authRemember" type="checkbox" checked>
+        <span>Keep me logged in on this device</span>
+      </label>
+      <p id="authMessage" class="auth-message" aria-live="polite"></p>
+      <button class="btn auth-submit" type="submit">Login</button>
+    </form>
+    <p id="authSwitchText" class="auth-switch-text">
+      New here?
+      <button class="link-btn" onclick="openAuthModal('register')" type="button">Create account</button>
+    </p>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/router.js"></script>
+<script src="js/app.js"></script>
+<script src="js/theme.js"></script>
+</body>
+</html>
