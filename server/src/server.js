@@ -1,4 +1,3 @@
-const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -18,13 +17,6 @@ app.get('/api/health', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
-
-const clientPath = path.resolve(__dirname, '../../client');
-app.use(express.static(clientPath));
-
-app.use((req, res) => {
-  res.sendFile(path.join(clientPath, 'index.html'));
-});
 
 async function startServer() {
   try {
