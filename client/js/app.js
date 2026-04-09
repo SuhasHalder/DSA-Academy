@@ -15,8 +15,45 @@ document.addEventListener('DOMContentLoaded', () => {
   updateActiveNav();
   updateAuthUI();
   setupAuthModalClose();
+  setupMobileNav();
   initializePage();
 });
+
+function setupMobileNav() {
+  const nav = document.getElementById('mainNav');
+  if(!nav) return;
+
+  nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      closeMobileNav();
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') closeMobileNav();
+  });
+}
+
+function toggleMobileNav() {
+  const isOpen = document.body.classList.toggle('nav-open');
+  const btn = document.querySelector('.mobile-menu-toggle');
+  if(btn) {
+    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    btn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+    btn.textContent = isOpen ? '✕' : '☰';
+  }
+}
+
+function closeMobileNav() {
+  if(!document.body.classList.contains('nav-open')) return;
+  document.body.classList.remove('nav-open');
+  const btn = document.querySelector('.mobile-menu-toggle');
+  if(btn) {
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Open menu');
+    btn.textContent = '☰';
+  }
+}
 
 // Update active navigation
 function updateActiveNav() {
