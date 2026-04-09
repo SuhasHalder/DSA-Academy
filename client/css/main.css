@@ -32,6 +32,31 @@ body::before {
   opacity: 0.8;
 }
 
+/* Light vs dark glow intensity */
+body:not(.dark)::before {
+  opacity: 0.55;
+}
+
+body.dark::before {
+  opacity: 0.85;
+}
+
+/* Blur background when modal is open */
+body.modal-open {
+  overflow: hidden;
+}
+
+body.modal-open header.navbar,
+body.modal-open main,
+body.modal-open footer {
+  filter: blur(10px) saturate(0.95);
+  transform: translateZ(0);
+}
+
+body.modal-open .auth-modal {
+  backdrop-filter: blur(10px);
+}
+
 /* Accessibility */
 .skip-link {
   position: absolute;
@@ -228,7 +253,7 @@ nav a.active::after {
 .auth-modal {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.6);
+  background: color-mix(in srgb, #0b1020 55%, transparent);
   display: grid;
   place-items: center;
   z-index: 2200;

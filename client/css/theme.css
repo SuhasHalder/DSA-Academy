@@ -1,38 +1,38 @@
 :root {
-  /* Light Theme */
-  --bg: #0b1020;
-  --bg-secondary: #0f1730;
-  --text: #eaf0ff;
-  --text-secondary: rgba(234, 240, 255, 0.72);
+  /* Light Theme (proper) */
+  --bg: #f7f8ff;
+  --bg-secondary: #eef2ff;
+  --text: #0b1020;
+  --text-secondary: rgba(11, 16, 32, 0.68);
 
-  /* Brand gradients (more colorful) */
-  --primary: #7c3aed;        /* violet */
-  --primary-dark: #5b21b6;
+  /* Brand gradients (colorful but clean) */
+  --primary: #6d28d9;        /* violet */
+  --primary-dark: #4c1d95;
   --primary-light: #a78bfa;
-  --accent: #06b6d4;         /* cyan */
-  --accent-dark: #0891b2;
-  --hot: #f97316;            /* orange */
-  --pink: #ec4899;
+  --accent: #0891b2;         /* cyan */
+  --accent-dark: #0e7490;
+  --hot: #ea580c;            /* orange */
+  --pink: #db2777;
 
   /* Surfaces */
-  --card: rgba(255, 255, 255, 0.06);
-  --card-hover: rgba(255, 255, 255, 0.09);
-  --border: rgba(255, 255, 255, 0.12);
-  --shadow: rgba(0, 0, 0, 0.35);
-  --shadow-lg: rgba(0, 0, 0, 0.55);
+  --card: rgba(255, 255, 255, 0.78);
+  --card-hover: rgba(255, 255, 255, 0.92);
+  --border: rgba(15, 23, 42, 0.10);
+  --shadow: rgba(2, 6, 23, 0.10);
+  --shadow-lg: rgba(2, 6, 23, 0.18);
 
   /* Code */
-  --code-bg: rgba(2, 6, 23, 0.65);
+  --code-bg: #0b1020;
   --code-text: #eaf0ff;
 
   /* Status */
-  --success: #22c55e;
-  --warning: #fbbf24;
-  --error: #fb7185;
+  --success: #16a34a;
+  --warning: #d97706;
+  --error: #e11d48;
 
   /* Effects */
-  --glass: blur(10px);
-  --ring: 0 0 0 4px color-mix(in srgb, var(--accent) 25%, transparent);
+  --glass: blur(12px);
+  --ring: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
 }
 
 .dark {

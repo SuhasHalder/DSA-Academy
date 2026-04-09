@@ -685,12 +685,14 @@ function openAuthModal(mode) {
   const form = document.getElementById('authForm');
   if(form) form.reset();
 
+  document.body.classList.add('modal-open');
   modal.classList.remove('hidden');
 }
 
 function closeAuthModal() {
   const modal = document.getElementById('authModal');
   if(modal) modal.classList.add('hidden');
+  document.body.classList.remove('modal-open');
 }
 
 function showAuthMessage(text, type = 'error') {
