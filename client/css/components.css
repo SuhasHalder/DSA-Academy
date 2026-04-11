@@ -821,14 +821,15 @@ li:hover {
   color: var(--text);
 }
 
-/* DSA page: local sidebar nav + interview Q&A */
+/* DSA page: local sidebar nav + interview Q&A (full main width like other pages) */
 .dsa-page-shell {
   display: grid;
-  grid-template-columns: minmax(200px, 240px) 1fr;
-  gap: 1.25rem;
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  gap: 1rem;
   align-items: start;
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
   position: relative;
 }
 
@@ -844,9 +845,10 @@ li:hover {
 .dsa-sidebar-sticky {
   position: sticky;
   top: calc(4.5rem + 0.5rem);
+  min-height: min(calc(100vh - 6rem), 720px);
   max-height: calc(100vh - 5.5rem);
   overflow-y: auto;
-  padding: 1rem 0.85rem;
+  padding: 1.15rem 1rem;
   border-radius: 14px;
   border: 1px solid var(--border);
   background: linear-gradient(160deg, color-mix(in srgb, var(--primary) 12%, var(--card)), var(--card));
@@ -898,18 +900,38 @@ li:hover {
 
 .dsa-nav-topic {
   display: block;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
   font-weight: 700;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
+  line-height: 1.35;
   color: var(--primary);
   text-decoration: none;
-  padding: 0.35rem 0.45rem;
+  padding: 0.5rem 0.55rem;
   border-radius: 8px;
-  transition: background 0.15s ease, color 0.15s ease;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .dsa-nav-topic:hover {
   background: color-mix(in srgb, var(--primary) 14%, transparent);
   color: var(--text);
+}
+
+.dsa-nav-topic.is-active {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--primary) 22%, transparent), color-mix(in srgb, var(--accent) 14%, transparent));
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary) 35%, var(--border));
+}
+
+.dsa-nav-empty {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
 }
 
 .dsa-nav-sublist {
@@ -1055,9 +1077,68 @@ li:hover {
   margin-top: 0.75rem;
 }
 
+.dsa-lesson-anchor {
+  scroll-margin-top: 5rem;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.topic-card--lesson {
+  margin-bottom: 0;
+}
+
+.dsa-lesson-pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding: 1rem 1.1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg-secondary) 55%, var(--card));
+}
+
+.dsa-pager-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.dsa-pager-meta {
+  flex: 1;
+  min-width: 140px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.dsa-pager-count {
+  font-weight: 700;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.dsa-pager-next-label {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.35;
+}
+
+.dsa-search-box.search-box {
+  margin: 1rem 0 1.25rem 0;
+  max-width: 500px;
+}
+
 @media (max-width: 960px) {
   .dsa-page-shell {
     grid-template-columns: 1fr;
+  }
+
+  .dsa-sidebar-sticky {
+    min-height: 0;
   }
 
   .dsa-mobile-outline-btn {
@@ -1068,7 +1149,7 @@ li:hover {
     position: fixed;
     top: 0;
     left: 0;
-    width: min(300px, 88vw);
+    width: min(360px, 92vw);
     height: 100vh;
     max-height: 100vh;
     z-index: 200;
