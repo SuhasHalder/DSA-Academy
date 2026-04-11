@@ -821,6 +821,287 @@ li:hover {
   color: var(--text);
 }
 
+/* DSA page: local sidebar nav + interview Q&A */
+.dsa-page-shell {
+  display: grid;
+  grid-template-columns: minmax(200px, 240px) 1fr;
+  gap: 1.25rem;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.dsa-drawer-backdrop {
+  display: none;
+}
+
+.dsa-sidebar {
+  position: relative;
+  z-index: 2;
+}
+
+.dsa-sidebar-sticky {
+  position: sticky;
+  top: calc(4.5rem + 0.5rem);
+  max-height: calc(100vh - 5.5rem);
+  overflow-y: auto;
+  padding: 1rem 0.85rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: linear-gradient(160deg, color-mix(in srgb, var(--primary) 12%, var(--card)), var(--card));
+  box-shadow: 0 4px 24px color-mix(in srgb, var(--shadow) 65%, transparent);
+}
+
+.dsa-sidebar-brand {
+  display: flex;
+  gap: 0.55rem;
+  align-items: flex-start;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.dsa-sidebar-icon {
+  color: var(--accent);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.dsa-sidebar-kicker {
+  margin: 0;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.dsa-sidebar-title {
+  margin: 0.1rem 0 0 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.dsa-local-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.dsa-nav-group {
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--bg-secondary) 40%, transparent);
+  padding: 0.4rem 0.35rem;
+}
+
+.dsa-nav-topic {
+  display: block;
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--primary);
+  text-decoration: none;
+  padding: 0.35rem 0.45rem;
+  border-radius: 8px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.dsa-nav-topic:hover {
+  background: color-mix(in srgb, var(--primary) 14%, transparent);
+  color: var(--text);
+}
+
+.dsa-nav-sublist {
+  list-style: none;
+  margin: 0.15rem 0 0 0;
+  padding: 0 0 0 0.35rem;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 45%, var(--border));
+}
+
+.dsa-nav-sublink {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.22rem 0.35rem;
+  border-radius: 6px;
+  line-height: 1.35;
+}
+
+.dsa-nav-sublink:hover {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.dsa-main-column {
+  min-width: 0;
+}
+
+.dsa-mobile-outline-btn {
+  display: none;
+  width: 100%;
+  margin-bottom: 0.75rem;
+  padding: 0.65rem 1rem;
+  border-radius: 10px;
+  border: 2px solid color-mix(in srgb, var(--primary) 40%, var(--border));
+  background: linear-gradient(90deg, color-mix(in srgb, var(--primary) 18%, var(--card)), color-mix(in srgb, var(--accent) 14%, var(--card)));
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.dsa-section-flash {
+  animation: dsaFlash 1s ease-out;
+}
+
+@keyframes dsaFlash {
+  0%, 100% { box-shadow: none; }
+  15% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 55%, transparent); }
+}
+
+.topic-card[id^="dsa-"],
+.topic-learning-intro,
+.topic-subtopic,
+.topic-diagram-wrap,
+.topic-interview-section,
+.topic-code-block {
+  scroll-margin-top: 5rem;
+}
+
+.topic-diagram--compact svg {
+  max-height: 88px;
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.topic-interview-block {
+  margin: 1.25rem 0;
+  padding: 1rem 1.1rem;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
+  background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 8%, var(--card)), color-mix(in srgb, var(--accent) 6%, var(--card)));
+}
+
+.topic-interview-heading {
+  margin: 0 0 0.35rem 0;
+  color: var(--accent);
+  font-size: 1.08rem;
+}
+
+.topic-interview-lead {
+  margin: 0 0 0.85rem 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.topic-interview-section {
+  margin-top: 0.85rem;
+}
+
+.topic-interview-section h5 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.topic-qa-item {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 0.45rem;
+  background: var(--card);
+  overflow: hidden;
+}
+
+.topic-qa-item summary {
+  cursor: pointer;
+  padding: 0.55rem 0.7rem;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  list-style: none;
+}
+
+.topic-qa-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.topic-qa-item summary::before {
+  content: '▸ ';
+  color: var(--accent);
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+
+.topic-qa-item[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.topic-qa-item p {
+  margin: 0;
+  padding: 0 0.7rem 0.65rem 1.35rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.topic-code-block {
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 960px) {
+  .dsa-page-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .dsa-mobile-outline-btn {
+    display: block;
+  }
+
+  .dsa-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(300px, 88vw);
+    height: 100vh;
+    max-height: 100vh;
+    z-index: 200;
+    transform: translateX(-102%);
+    transition: transform 0.22s ease;
+    background: var(--bg);
+    box-shadow: 8px 0 32px color-mix(in srgb, var(--shadow) 80%, transparent);
+    overflow-y: auto;
+    padding: 1rem 0.5rem;
+  }
+
+  .dsa-sidebar .dsa-sidebar-sticky {
+    position: static;
+    max-height: none;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  body.dsa-drawer-open .dsa-sidebar {
+    transform: translateX(0);
+  }
+
+  body.dsa-drawer-open .dsa-drawer-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 199;
+    background: color-mix(in srgb, var(--shadow) 45%, transparent);
+    backdrop-filter: blur(3px);
+  }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .hero h1 {

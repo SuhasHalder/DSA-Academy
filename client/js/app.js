@@ -30,7 +30,10 @@ function setupMobileNav() {
   });
 
   document.addEventListener('keydown', (e) => {
-    if(e.key === 'Escape') closeMobileNav();
+    if(e.key === 'Escape') {
+      closeMobileNav();
+      if(typeof closeDsaDrawer === 'function') closeDsaDrawer();
+    }
   });
 }
 
@@ -73,6 +76,88 @@ function renderPageHeader(title, subtitle) {
       <h1 class="page-title">${escapeHtml(title)}</h1>
       ${subtitle ? `<p class="page-subtitle">${escapeHtml(subtitle)}</p>` : ''}
     </header>
+  `;
+}
+
+function getDsaNavTopics() {
+  return dsaTopics.filter(t => t.easyExplanation);
+}
+
+function closeDsaDrawer() {
+  document.body.classList.remove('dsa-drawer-open');
+  const btn = document.getElementById('dsaDrawerToggle');
+  if(btn) btn.setAttribute('aria-expanded', 'false');
+}
+
+function toggleDsaDrawer() {
+  const on = document.body.classList.toggle('dsa-drawer-open');
+  const btn = document.getElementById('dsaDrawerToggle');
+  if(btn) btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+}
+
+function dsaNavigateTo(ev, topicId, anchorId) {
+  if(ev && ev.preventDefault) ev.preventDefault();
+  closeDsaDrawer();
+  const topic = dsaTopics.find(t => t.id === topicId);
+  let rerender = false;
+  if(topic && currentDsaLevel !== 'all' && topic.level !== currentDsaLevel) {
+    currentDsaLevel = 'all';
+    rerender = true;
+  }
+  const si = document.getElementById('dsaSearch');
+  if(si && si.value.trim()) {
+    si.value = '';
+    rerender = true;
+  }
+  if(rerender) {
+    renderDSATopics();
+  } else {
+    displayDSATopics(si ? si.value : '');
+  }
+  const runScroll = () => {
+    const el = document.getElementById(anchorId);
+    if(el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      el.classList.add('dsa-section-flash');
+      setTimeout(() => el.classList.remove('dsa-section-flash'), 1100);
+    }
+  };
+  requestAnimationFrame(() => requestAnimationFrame(runScroll));
+}
+
+function renderDsaSidebarNav() {
+  const topics = getDsaNavTopics();
+  return `
+    <div class="dsa-sidebar-sticky">
+      <div class="dsa-sidebar-brand">
+        <span class="dsa-sidebar-icon" aria-hidden="true">◇</span>
+        <div>
+          <p class="dsa-sidebar-kicker">On this page</p>
+          <p class="dsa-sidebar-title">Topic map</p>
+        </div>
+      </div>
+      <nav class="dsa-local-nav" aria-label="Jump to DSA topics and sections">
+        ${topics.map(topic => {
+          const tid = topic.id;
+          const subLinks = (topic.subtopics || []).map((st, i) =>
+            `<li><a href="#dsa-${tid}-sub-${i}" class="dsa-nav-sublink" onclick="dsaNavigateTo(event,'${tid}','dsa-${tid}-sub-${i}'); return false;">${escapeHtml(st.title)}</a></li>`
+          ).join('');
+          const hasInterview = (topic.interviewTheory && topic.interviewTheory.length) || (topic.interviewCoding && topic.interviewCoding.length);
+          return `<div class="dsa-nav-group">
+            <a href="#dsa-${tid}" class="dsa-nav-topic" onclick="dsaNavigateTo(event,'${tid}','dsa-${tid}'); return false;">${escapeHtml(topic.title)}</a>
+            <ul class="dsa-nav-sublist">
+              <li><a href="#dsa-${tid}-intro" class="dsa-nav-sublink" onclick="dsaNavigateTo(event,'${tid}','dsa-${tid}-intro'); return false;">Overview</a></li>
+              ${subLinks}
+              ${topic.diagramSvg ? `<li><a href="#dsa-${tid}-diagram" class="dsa-nav-sublink" onclick="dsaNavigateTo(event,'${tid}','dsa-${tid}-diagram'); return false;">Diagram</a></li>` : ''}
+              ${hasInterview ? `
+              <li><a href="#dsa-${tid}-theory" class="dsa-nav-sublink" onclick="dsaNavigateTo(event,'${tid}','dsa-${tid}-theory'); return false;">Theory Q&amp;A</a></li>
+              <li><a href="#dsa-${tid}-coding" class="dsa-nav-sublink" onclick="dsaNavigateTo(event,'${tid}','dsa-${tid}-coding'); return false;">Coding Q&amp;A</a></li>` : ''}
+              <li><a href="#dsa-${tid}-implementation" class="dsa-nav-sublink" onclick="dsaNavigateTo(event,'${tid}','dsa-${tid}-implementation'); return false;">Sample code</a></li>
+            </ul>
+          </div>`;
+        }).join('')}
+      </nav>
+    </div>
   `;
 }
 
@@ -200,18 +285,19 @@ function renderHome() {
 }
 
 function renderTopicLearningBlock(topic) {
+  const tid = topic.id;
   const parts = [];
   if(topic.easyExplanation) {
     parts.push(`
-      <div class="topic-learning-intro">
+      <div class="topic-learning-intro" id="dsa-${tid}-intro">
         <h4>In simple words</h4>
         <p>${escapeHtml(topic.easyExplanation)}</p>
       </div>
     `);
   }
   if(topic.subtopics && topic.subtopics.length) {
-    const items = topic.subtopics.map(st => `
-      <div class="topic-subtopic">
+    const items = topic.subtopics.map((st, i) => `
+      <div class="topic-subtopic" id="dsa-${tid}-sub-${i}">
         <strong>${escapeHtml(st.title)}</strong>
         <p>${escapeHtml(st.body)}</p>
       </div>
@@ -225,13 +311,42 @@ function renderTopicLearningBlock(topic) {
   }
   if(topic.diagramSvg) {
     parts.push(`
-      <figure class="topic-diagram-wrap">
-        <div class="topic-diagram" aria-hidden="true">${topic.diagramSvg}</div>
-        <figcaption>Visual diagram — use it together with the text above.</figcaption>
+      <figure class="topic-diagram-wrap" id="dsa-${tid}-diagram">
+        <div class="topic-diagram topic-diagram--compact" aria-hidden="true">${topic.diagramSvg}</div>
+        <figcaption>Compact reference diagram — pair with the explanation above.</figcaption>
       </figure>
     `);
   }
   return parts.join('');
+}
+
+function renderTopicInterviewBlock(topic) {
+  const theory = topic.interviewTheory || [];
+  const coding = topic.interviewCoding || [];
+  if(!theory.length && !coding.length) return '';
+  const tid = topic.id;
+  const qaItem = item => `
+    <details class="topic-qa-item">
+      <summary>${escapeHtml(item.q)}</summary>
+      <p>${escapeHtml(item.a)}</p>
+    </details>
+  `;
+  return `
+    <section class="topic-interview-block" id="dsa-${tid}-interview" aria-label="Interview prep for ${escapeHtml(topic.title)}">
+      <h4 class="topic-interview-heading">Interview prep</h4>
+      <p class="topic-interview-lead">Theory and coding angles often tested in product and service company interviews.</p>
+      ${theory.length ? `
+      <div class="topic-interview-section" id="dsa-${tid}-theory">
+        <h5>Theory Q&amp;A</h5>
+        ${theory.map(qaItem).join('')}
+      </div>` : ''}
+      ${coding.length ? `
+      <div class="topic-interview-section" id="dsa-${tid}-coding">
+        <h5>Coding pattern Q&amp;A</h5>
+        ${coding.map(qaItem).join('')}
+      </div>` : ''}
+    </section>
+  `;
 }
 
 function renderDsaProfessionalDetails(topic) {
@@ -290,29 +405,40 @@ function renderDSATopics() {
   let html = `
     ${renderPageHeader(
       'Data Structures & Algorithms',
-      'Easy explanations, diagrams, and code — built so beginners can understand every topic clearly.'
+      'Concepts, compact diagrams, interview Q&A, and code — use the sidebar to jump to any topic or subsection.'
     )}
-    <div class="search-box">
-      <input type="text" id="dsaSearch" placeholder="Search DSA topics..." oninput="filterDSATopics()">
+    <div class="dsa-page-shell">
+      <div class="dsa-drawer-backdrop" onclick="closeDsaDrawer()" aria-hidden="true"></div>
+      <aside class="dsa-sidebar" id="dsaSidebarNav" aria-label="DSA topic navigation">
+        ${renderDsaSidebarNav()}
+      </aside>
+      <div class="dsa-main-column">
+        <button type="button" class="dsa-mobile-outline-btn" id="dsaDrawerToggle" onclick="toggleDsaDrawer()" aria-expanded="false" aria-controls="dsaSidebarNav">
+          Topic map
+        </button>
+        <div class="search-box">
+          <input type="text" id="dsaSearch" placeholder="Search DSA topics..." oninput="filterDSATopics()">
+        </div>
+        <section class="learning-path-grid">
+          ${dsaLearningPath.map(level => `
+            <article class="learning-stage ${currentDsaLevel === level.id ? 'active' : ''}" onclick="setDsaLevel('${level.id}')">
+              <h3>${level.stage} Level</h3>
+              <p>${level.goal}</p>
+              <ul class="learning-list">
+                ${level.topics.map(topic => `<li>${topic}</li>`).join('')}
+              </ul>
+            </article>
+          `).join('')}
+        </section>
+        <div class="level-filter-actions">
+          <button class="btn btn-secondary" onclick="setDsaLevel('all')">Show All Topics</button>
+          <span class="filter-status">${currentDsaLevel === 'all' ? 'Viewing all levels' : `Viewing ${currentDsaLevel} topics`}</span>
+        </div>
+        <div id="dsaTopicsContainer"></div>
+      </div>
     </div>
-    <section class="learning-path-grid">
-      ${dsaLearningPath.map(level => `
-        <article class="learning-stage ${currentDsaLevel === level.id ? 'active' : ''}" onclick="setDsaLevel('${level.id}')">
-          <h3>${level.stage} Level</h3>
-          <p>${level.goal}</p>
-          <ul class="learning-list">
-            ${level.topics.map(topic => `<li>${topic}</li>`).join('')}
-          </ul>
-        </article>
-      `).join('')}
-    </section>
-    <div class="level-filter-actions">
-      <button class="btn btn-secondary" onclick="setDsaLevel('all')">Show All Topics</button>
-      <span class="filter-status">${currentDsaLevel === 'all' ? 'Viewing all levels' : `Viewing ${currentDsaLevel} topics`}</span>
-    </div>
-    <div id="dsaTopicsContainer"></div>
   `;
-  
+
   container.innerHTML = html;
   displayDSATopics();
 }
@@ -334,7 +460,7 @@ function displayDSATopics(filter = '') {
   }
 
   container.innerHTML = filtered.map(topic => `
-    <div class="topic-card">
+    <article class="topic-card" id="dsa-${topic.id}">
       <h3>${topic.title} <span class="topic-badge">${(topic.level || 'general').toUpperCase()}</span></h3>
       <p class="description">${topic.description}</p>
       <p>${topic.overview || ''}</p>
@@ -355,20 +481,21 @@ function displayDSATopics(filter = '') {
         </div>
       </div>
       ${renderDsaProfessionalDetails(topic)}
-      
-      <div class="language-tabs">
-        <button class="language-tab ${currentLanguage === 'cpp' ? 'active' : ''}" 
-                onclick="switchLanguage('cpp', '${topic.id}')">C++</button>
-        <button class="language-tab ${currentLanguage === 'java' ? 'active' : ''}" 
-                onclick="switchLanguage('java', '${topic.id}')">Java</button>
-        <button class="language-tab ${currentLanguage === 'python' ? 'active' : ''}" 
-                onclick="switchLanguage('python', '${topic.id}')">Python</button>
-      </div>
-      
-      <div class="code-example active" id="code-${topic.id}">
-        <pre><code>${escapeHtml(topic.languages[currentLanguage] || topic.languages.cpp)}</code></pre>
-      </div>
-    </div>
+      ${renderTopicInterviewBlock(topic)}
+      <section class="topic-code-block" id="dsa-${topic.id}-implementation" aria-label="Sample code">
+        <div class="language-tabs">
+          <button class="language-tab ${currentLanguage === 'cpp' ? 'active' : ''}"
+                  onclick="switchLanguage('cpp', '${topic.id}')">C++</button>
+          <button class="language-tab ${currentLanguage === 'java' ? 'active' : ''}"
+                  onclick="switchLanguage('java', '${topic.id}')">Java</button>
+          <button class="language-tab ${currentLanguage === 'python' ? 'active' : ''}"
+                  onclick="switchLanguage('python', '${topic.id}')">Python</button>
+        </div>
+        <div class="code-example active" id="code-${topic.id}">
+          <pre><code>${escapeHtml(topic.languages[currentLanguage] || topic.languages.cpp)}</code></pre>
+        </div>
+      </section>
+    </article>
   `).join('');
 }
 
