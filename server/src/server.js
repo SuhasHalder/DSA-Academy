@@ -25,7 +25,7 @@ async function startServer() {
       console.log(`Server running on http://localhost:${PORT}`);
     });
   } catch (error) {
-    console.error(error.message);
+    console.error('Server startup failed:', error.code || error.message);
     process.exit(1);
   }
 }

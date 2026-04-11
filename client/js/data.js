@@ -1045,6 +1045,36 @@ dsaTopics.push(
       java: `class TrieNode { TrieNode[] next = new TrieNode[26]; boolean end; }`,
       python: `class TrieNode:\n    def __init__(self):\n        self.next = {}\n        self.end = False`
     }
+  },
+  {
+    id: 'big-o',
+    title: 'Big O Notation (Time & Space)',
+    description: 'Big O describes how running time or memory grows when input size n grows — not exact seconds, but growth shape.',
+    overview: 'It helps you compare algorithms: O(1) is constant, O(log n) grows slowly, O(n) linear, O(n²) can explode for large n.',
+    level: 'beginner',
+    complexity: 'Conceptual — compare growth rates',
+    keyPoints: ['Worst vs average case', 'Drop constants and low terms', 'Input size n is the focus'],
+    applications: ['Choosing data structures', 'Interview reasoning', 'Avoiding TLE in contests'],
+    languages: {
+      cpp: `// Example: single loop over n elements → O(n)\nfor(int i = 0; i < n; i++) { /* ... */ }`,
+      java: `// Example: nested loops n × n → O(n²)\nfor(int i = 0; i < n; i++)\n  for(int j = 0; j < n; j++) { /* ... */ }`,
+      python: `# Example: one pass → O(n)\nfor x in items:\n    pass`
+    }
+  },
+  {
+    id: 'strings-basics',
+    title: 'Strings (Characters & Substrings)',
+    description: 'A string is an ordered sequence of characters. Many array techniques apply: two pointers, sliding window, frequency counting.',
+    overview: 'Think of a string as a read-only or mutable array of chars depending on language; practice indexing and slicing safely.',
+    level: 'beginner',
+    complexity: 'Often O(n) for one pass, O(n²) for naive substring checks',
+    keyPoints: ['Indexing and slicing', 'Immutability in Java/Python vs char[] in C++', 'ASCII vs Unicode basics'],
+    applications: ['Parsing', 'Pattern matching', 'Interview string problems'],
+    languages: {
+      cpp: `std::string s = "hello";\nchar c = s[0]; // 'h'\nsubstr = s.substr(1, 3); // "ell"`,
+      java: `String s = "hello";\nchar c = s.charAt(0);\nString sub = s.substring(1, 4); // "ell"`,
+      python: `s = "hello"\nc = s[0]\nsub = s[1:4]  # "ell"`
+    }
   }
 );
 
@@ -1132,6 +1162,18 @@ const dsaProfessionalDetails = {
     commonPitfalls: ['Memory-heavy node design', 'Not marking terminal words correctly'],
     developerTips: ['Use map-based nodes for sparse alphabets'],
     realWorldUseCases: ['Search suggestions', 'Keyword filtering', 'Dictionary services']
+  },
+  'big-o': {
+    interviewPatterns: ['Compare two approaches by complexity', 'Identify hidden O(n²) loops'],
+    commonPitfalls: ['Ignoring space complexity', 'Confusing average vs worst case'],
+    developerTips: ['State both time and space in interviews'],
+    realWorldUseCases: ['API latency budgets', 'Choosing batch vs stream processing']
+  },
+  'strings-basics': {
+    interviewPatterns: ['Sliding window', 'Expand around center (palindrome)', 'Rabin-Karp / KMP (advanced)'],
+    commonPitfalls: ['Off-by-one in slices', 'Modifying string while iterating'],
+    developerTips: ['Convert to list/array when language strings are immutable'],
+    realWorldUseCases: ['Search engines', 'Compilers', 'Bioinformatics']
   }
 };
 

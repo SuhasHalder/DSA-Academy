@@ -199,6 +199,41 @@ function renderHome() {
   `;
 }
 
+function renderTopicLearningBlock(topic) {
+  const parts = [];
+  if(topic.easyExplanation) {
+    parts.push(`
+      <div class="topic-learning-intro">
+        <h4>In simple words</h4>
+        <p>${escapeHtml(topic.easyExplanation)}</p>
+      </div>
+    `);
+  }
+  if(topic.subtopics && topic.subtopics.length) {
+    const items = topic.subtopics.map(st => `
+      <div class="topic-subtopic">
+        <strong>${escapeHtml(st.title)}</strong>
+        <p>${escapeHtml(st.body)}</p>
+      </div>
+    `).join('');
+    parts.push(`
+      <section class="topic-subtopics" aria-label="Step by step explanation">
+        <h4>Step by step</h4>
+        ${items}
+      </section>
+    `);
+  }
+  if(topic.diagramSvg) {
+    parts.push(`
+      <figure class="topic-diagram-wrap">
+        <div class="topic-diagram" aria-hidden="true">${topic.diagramSvg}</div>
+        <figcaption>Visual diagram — use it together with the text above.</figcaption>
+      </figure>
+    `);
+  }
+  return parts.join('');
+}
+
 function renderDsaProfessionalDetails(topic) {
   const interviewPatterns = topic.interviewPatterns || [];
   const pitfalls = topic.commonPitfalls || [];
@@ -255,7 +290,7 @@ function renderDSATopics() {
   let html = `
     ${renderPageHeader(
       'Data Structures & Algorithms',
-      'Explore topics with multi-language implementations and time complexities.'
+      'Easy explanations, diagrams, and code — built so beginners can understand every topic clearly.'
     )}
     <div class="search-box">
       <input type="text" id="dsaSearch" placeholder="Search DSA topics..." oninput="filterDSATopics()">
@@ -303,6 +338,7 @@ function displayDSATopics(filter = '') {
       <h3>${topic.title} <span class="topic-badge">${(topic.level || 'general').toUpperCase()}</span></h3>
       <p class="description">${topic.description}</p>
       <p>${topic.overview || ''}</p>
+      ${renderTopicLearningBlock(topic)}
       <p><strong>Time Complexity:</strong> ${topic.complexity}</p>
       <div class="topic-details-grid">
         <div>

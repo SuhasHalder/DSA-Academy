@@ -566,6 +566,85 @@ li:hover {
   color: var(--primary);
 }
 
+/* Beginner-friendly DSA blocks + diagrams */
+.topic-learning-intro {
+  margin: 1rem 0;
+  padding: 1rem 1.1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg-secondary) 65%, transparent);
+}
+
+.topic-learning-intro h4 {
+  margin: 0 0 0.45rem 0;
+  color: var(--primary);
+  font-size: 1.05rem;
+}
+
+.topic-learning-intro p {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.75;
+}
+
+.topic-subtopics {
+  margin: 1.1rem 0;
+}
+
+.topic-subtopics > h4 {
+  margin: 0 0 0.65rem 0;
+  color: var(--accent);
+  font-size: 1.05rem;
+}
+
+.topic-subtopic {
+  margin: 0.55rem 0;
+  padding: 0.65rem 0.85rem;
+  border-left: 4px solid color-mix(in srgb, var(--primary) 55%, var(--accent));
+  border-radius: 0 10px 10px 0;
+  background: color-mix(in srgb, var(--card) 90%, transparent);
+}
+
+.topic-subtopic strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--text);
+}
+
+.topic-subtopic p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.topic-diagram-wrap {
+  margin: 1.25rem 0;
+  padding: 1rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg-secondary) 55%, transparent);
+}
+
+.topic-diagram {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.topic-diagram svg {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+.topic-diagram-wrap figcaption {
+  margin-top: 0.65rem;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
 /* Search */
 .search-box {
   width: 100%;
